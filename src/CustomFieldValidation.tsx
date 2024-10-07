@@ -3,6 +3,7 @@ import {RenderFieldExtensionCtx} from "datocms-plugin-sdk";
 import {useEffect, useMemo, useState} from "react";
 import {PluginParameters, ValidatorFunction} from "./ConfigScreen.tsx";
 
+
 export const CustomFieldValidation = ({ctx}: { ctx: RenderFieldExtensionCtx }) => {
 
     const {formValues, fieldPath, field, setFieldValue, updatePluginParameters, plugin} = ctx;
@@ -52,7 +53,7 @@ export const CustomFieldValidation = ({ctx}: { ctx: RenderFieldExtensionCtx }) =
                 name={api_key}
                 id={api_key}
                 label={null} // We don't need to show this again because the field wrapper already shows it
-                hint={pluginParams.customError}
+                hint={isValid ? pluginParams.customError : null}
                 value={currentValue}
                 error={!isValid && pluginParams.customError}
                 onChange={setCurrentValue}

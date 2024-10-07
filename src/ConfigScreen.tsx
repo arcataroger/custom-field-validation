@@ -1,6 +1,8 @@
-import {Button, Canvas, TextareaField, TextField} from 'datocms-react-ui';
+import {Button, Canvas, Form, FormLabel, TextField} from 'datocms-react-ui';
 import {RenderConfigScreenCtx} from "datocms-plugin-sdk";
-import {useState} from "react";
+import {useMemo, useState} from "react";
+import CodeMirror from '@uiw/react-codemirror';
+import {javascript} from '@codemirror/lang-javascript';
 
 export type ValidatorFunction = (input: string) => boolean;
 
@@ -13,18 +15,6 @@ export type PluginParameters = {
 type PropTypes = {
     ctx: RenderConfigScreenCtx;
 };
-
-const validatorPlaceholder:string = `
-// The input parameter MUST be called "input", and you must return a boolean true/false
-(input: string): boolean => {
-
-    // Your test goes here
-    if (input==='invalid input') {
-        return false
-    }
-    
-    return true
-}`
 
 export default function ConfigScreen({ctx}: PropTypes) {
     const pluginParams = ctx.plugin.attributes.parameters as PluginParameters;
@@ -43,27 +33,33 @@ export default function ConfigScreen({ctx}: PropTypes) {
 
     }
 
+    const isDirty: boolean = useMemo(() => {
+        return (pluginParams.validatorFn != validatorFn || pluginParams.customError != customError);
+    }, [customError, validatorFn, pluginParams.validatorFn, pluginParams.customError]);
+
     return (
         <Canvas ctx={ctx}>
-            <TextareaField
-                id='validatorFn'
-                name='validatorFn'
-                label="Validator function"
-                value={validatorFn}
-                onChange={setValidatorFn}
-                placeholder={validatorPlaceholder}
-            />
+            <Form>
+                <FormLabel htmlFor={'codemirror'}>Custom validator</FormLabel>
+                <CodeMirror
+                    id='codemirror'
+                    extensions={[javascript()]}
+                    value={validatorFn}
+                    onChange={setValidatorFn}
+                />
 
-            <TextField
-                id='customError'
-                name='customError'
-                label='Custom error message'
-                value={customError}
-                onChange={setCustomError}
-            />
+                <TextField
+                    id='customError'
+                    name='customError'
+                    label='Custom error message'
+                    hint='Validation message that editors see'
+                    value={customError}
+                    onChange={setCustomError}
+                />
 
-            <Button onClick={onSave}>Save</Button>
+                <Button onClick={onSave} disabled={!isDirty}>{isDirty ? 'Save' : 'Saved!'}</Button>
 
+            </Form>
         </Canvas>
     );
 }
