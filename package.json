@@ -1,0 +1,44 @@
+{
+  "name": "datocms-plugin-custom-field-validation",
+  "description": "Define custom validation rules in a Javascript function and display a custom user-facing message.",
+  "homepage": "https://www.github.com/arcataroger/custom-field-validation",
+  "private": false,
+  "version": "0.1.0",
+  "author": "Roger Tuan (DatoCMS) <r.tuan@datocms.com>",
+  "type": "module",
+  "keywords": [
+    "datocms-plugin"
+  ],
+  "datoCmsPlugin": {
+    "title": "Custom Field Validation",
+    "coverImage": "docs/cover-1200x800.png",
+    "previewImage": "docs/preview.mp4",
+    "entryPoint": "dist/index.html",
+    "permissions": []
+  },
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "datocms-plugin-sdk": "^1.1.0",
+    "datocms-react-ui": "^1.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "globals": "^15.9.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1"
+  }
+}
