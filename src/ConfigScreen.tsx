@@ -1,4 +1,4 @@
-import {Button, Canvas, Form, FormLabel, TextField} from 'datocms-react-ui';
+import {Button, Canvas, FieldHint, Form, FormLabel, TextField} from 'datocms-react-ui';
 import {RenderConfigScreenCtx} from "datocms-plugin-sdk";
 import {Fragment, useCallback, useMemo, useRef, useState} from "react";
 import {Highlight, themes} from "prism-react-renderer";
@@ -68,10 +68,10 @@ export default function ConfigScreen({ctx}: PropTypes) {
     return (
         <Canvas ctx={ctx}>
             <Form>
-                <FormLabel htmlFor={'codemirror'}>Custom validator</FormLabel>
+                <FormLabel htmlFor={'code-editor'}>Custom validator function</FormLabel>
                 <Highlight code={validatorFn} language="JavaScript" theme={themes.nightOwlLight}>
                     {({style, tokens, getTokenProps}) => (
-                        <pre className={'code-editor'} style={style} ref={editorRef}>
+                        <pre id='code-editor' className={'code-editor'} style={style} ref={editorRef}>
                       {tokens.map((line, i) => (
                           <Fragment key={i}>
                               {line
@@ -85,12 +85,14 @@ export default function ConfigScreen({ctx}: PropTypes) {
                     </pre>
                     )}
                 </Highlight>
+                <FieldHint>Must be a JS function that takes an "input" param as string and returns a boolean. Typescript is not supported.</FieldHint>
 
                 <TextField
                     id='customError'
                     name='customError'
-                    label='Custom error message'
-                    hint='Validation message that editors see'
+                    label='Custom validation message'
+                    hint='This is what your editors see'
+                    placeholder='Input must not be "invalid input"'
                     value={customError}
                     onChange={setCustomError}
                 />

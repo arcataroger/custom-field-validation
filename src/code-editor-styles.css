@@ -1,3 +1,7 @@
 .code-editor {
-    padding: 0 20px;
+    padding: 10px 20px;
+    border: 1px solid grey;
+    max-height: 200px;
+    min-height: 50px;
+    overflow-y: scroll;
 }
