@@ -11,6 +11,10 @@ export type PluginParameters = {
     isValid: boolean,
     validatorFn: string,
     customError: string,
+    field?: {
+        label: string,
+        path: string,
+    }
 };
 
 type PropTypes = {

@@ -5,12 +5,14 @@ import {render} from "./utils/render";
 import {CustomFieldValidation} from "./CustomFieldValidation.tsx";
 
 connect({
-    onBeforeItemUpsert(payload, ctx) {
-        const {isValid, customError} = ctx.plugin.attributes.parameters as PluginParameters
+    onBeforeItemUpsert(_, ctx) {
+        const {isValid, customError, field} = ctx.plugin.attributes.parameters as PluginParameters
 
         if (!isValid) {
-            console.log('Invalid', payload)
-            ctx.alert(customError ?? `Custom validation failed`)
+            if(field?.path) {
+                ctx.navigateTo(`#fieldPath=${field.path}`)
+            }
+            ctx.alert(`${field ? field.label : 'A field'} is invalid${customError ? `: ${customError}` : '. Please try again.'}`);
             return false
         } else {
             return true

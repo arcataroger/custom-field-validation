@@ -27,6 +27,16 @@ export const CustomFieldValidation = ({ctx}: { ctx: RenderFieldExtensionCtx }) =
 
 
     useEffect(() => {
+        updatePluginParameters({
+            ...pluginParams,
+            field: {
+                path: fieldPath,
+                label: field.attributes.label
+            }
+        })
+    }, [field, fieldPath])
+
+    useEffect(() => {
             if (!isValid) {
                 updatePluginParameters({
                     ...pluginParams,
@@ -55,7 +65,7 @@ export const CustomFieldValidation = ({ctx}: { ctx: RenderFieldExtensionCtx }) =
                 label={null} // We don't need to show this again because the field wrapper already shows it
                 hint={isValid ? pluginParams.customError : null}
                 value={currentValue}
-                error={!isValid && pluginParams.customError}
+                error={!isValid && (pluginParams.customError || 'Invalid input (ask your developer to explain why)')}
                 onChange={setCurrentValue}
             />
         </Canvas>
